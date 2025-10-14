@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Trash2, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Navigation from "@/components/Navigation";
 
 interface CartItem {
   id: string;
@@ -119,6 +120,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
 

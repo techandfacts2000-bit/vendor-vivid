@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Package, MapPin, User, LogOut } from "lucide-react";
+import { Package, MapPin, User } from "lucide-react";
+import Navigation from "@/components/Navigation";
 
 interface Order {
   id: string;
@@ -46,14 +47,6 @@ const Account = () => {
     if (data) setOrders(data);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully"
-    });
-    navigate("/");
-  };
 
   if (!user) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -61,14 +54,9 @@ const Account = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">My Account</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
-          </Button>
-        </div>
+        <h1 className="text-3xl font-bold mb-8">My Account</h1>
 
         <Tabs defaultValue="orders" className="w-full">
           <TabsList className="grid w-full grid-cols-3">

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Heart, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import Navigation from "@/components/Navigation";
 
 interface Product {
   id: string;
@@ -135,6 +136,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navigation />
       <div className="container mx-auto px-4 py-8">
         <Link to="/" className="inline-flex items-center gap-2 mb-6 text-muted-foreground hover:text-foreground">
           <ArrowLeft className="h-4 w-4" />
