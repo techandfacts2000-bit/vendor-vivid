@@ -37,14 +37,18 @@ const HeroBanner = ({ banners }: HeroBannerProps) => {
   if (banners.length === 0) return null;
 
   return (
-    <div className="relative w-full bg-muted">
+    <div className="relative w-full bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      
       <div className="container mx-auto">
-        <div className="relative aspect-[21/9] md:aspect-[16/6] overflow-hidden">
+        <div className="relative aspect-[21/9] md:aspect-[16/6] overflow-hidden rounded-lg">
           {banners.map((banner, index) => (
             <div
               key={banner.id}
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                index === currentIndex ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 transition-all duration-700 ${
+                index === currentIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"
               }`}
             >
               <img
@@ -52,11 +56,19 @@ const HeroBanner = ({ banners }: HeroBannerProps) => {
                 alt={banner.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
-                <div className="container mx-auto px-4">
-                  <h2 className="text-3xl md:text-5xl font-bold text-white max-w-2xl">
-                    {banner.title}
-                  </h2>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent flex items-center">
+                <div className="container mx-auto px-8 md:px-12">
+                  <div className="max-w-2xl animate-fade-in">
+                    <h2 className="text-3xl md:text-6xl font-bold text-white mb-4 leading-tight">
+                      {banner.title}
+                    </h2>
+                    <p className="text-lg md:text-xl text-white/90 mb-6">
+                      Authentic handcrafted treasures from Indian artisans
+                    </p>
+                    <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg">
+                      Explore Collection
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

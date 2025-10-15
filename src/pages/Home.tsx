@@ -158,29 +158,71 @@ const Home = () => {
         </section>
       )}
 
+      {/* Trust Badges */}
+      <section className="py-8 bg-background border-y">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl mb-2">🎨</div>
+              <h3 className="font-semibold mb-1">Handcrafted</h3>
+              <p className="text-sm text-muted-foreground">100% Authentic</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-2">🌿</div>
+              <h3 className="font-semibold mb-1">Eco-Friendly</h3>
+              <p className="text-sm text-muted-foreground">Sustainable Materials</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-2">🚚</div>
+              <h3 className="font-semibold mb-1">Free Shipping</h3>
+              <p className="text-sm text-muted-foreground">On orders above ₹999</p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-2">🤝</div>
+              <h3 className="font-semibold mb-1">Support Artisans</h3>
+              <p className="text-sm text-muted-foreground">Empowering Communities</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold">Featured Products</h2>
-              <Link to="/products">
-                <Button variant="outline">View All</Button>
-              </Link>
+        <section className="py-16 relative overflow-hidden">
+          <div className="absolute top-20 right-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Collection</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Discover our handpicked selection of exquisite handcrafted items
+              </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} />
               ))}
             </div>
+            <div className="text-center mt-10">
+              <Link to="/products">
+                <Button size="lg" variant="outline" className="hover-scale">
+                  View All Products
+                </Button>
+              </Link>
+            </div>
           </div>
         </section>
       )}
 
       {/* Latest Products */}
-      <section className="py-12 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-6">Latest Handcrafted Items</h2>
+      <section className="py-16 bg-gradient-to-b from-muted/30 to-background relative">
+        <div className="absolute bottom-20 left-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">New Arrivals</h2>
+            <p className="text-lg text-muted-foreground">
+              Fresh from our artisans' workshops
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.slice(0, 8).map((product) => (
               <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} />
@@ -190,13 +232,31 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Handcrafted with Love</h2>
-          <p className="max-w-2xl mx-auto text-lg opacity-90">
-            CosterBox brings you authentic handcrafted products that celebrate traditional Indian craftsmanship. 
-            Each piece is made with care by skilled artisans, blending heritage with modern design.
-          </p>
+      <section className="py-20 bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-primary-foreground relative overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Handcrafted with Love</h2>
+            <p className="text-xl md:text-2xl mb-8 opacity-95 leading-relaxed">
+              CosterBox brings you authentic handcrafted products that celebrate traditional Indian craftsmanship. 
+              Each piece is made with care by skilled artisans, blending heritage with modern design.
+            </p>
+            <div className="flex flex-wrap justify-center gap-8 mt-12">
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">500+</div>
+                <div className="text-lg opacity-90">Artisans</div>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">1000+</div>
+                <div className="text-lg opacity-90">Products</div>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl font-bold mb-2">50+</div>
+                <div className="text-lg opacity-90">Villages</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
