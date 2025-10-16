@@ -439,26 +439,87 @@ const Dashboard = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="orders">
-            <Card className="p-6">
-              <h2 className="text-xl font-bold mb-4">Recent Orders</h2>
-              <div className="space-y-4">
-                {orders.map((order) => (
-                  <div key={order.id} className="border-b pb-4">
-                    <div className="flex justify-between">
+          <TabsContent value="orders" className="space-y-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Orders Management</h3>
+            </div>
+            <div className="grid gap-4">
+              {orders.map((order) => (
+                <Card key={order.id}>
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="font-semibold">Order #{order.order_number}</p>
-                        <p className="text-sm text-muted-foreground">{new Date(order.created_at).toLocaleDateString()}</p>
+                        <h4 className="font-semibold text-lg mb-1">Order #{order.order_number}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Placed on {new Date(order.created_at).toLocaleDateString()} at {new Date(order.created_at).toLocaleTimeString()}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold">₹{order.total_amount}</p>
-                        <p className="text-sm text-muted-foreground">{order.status}</p>
+                        <p className="font-bold text-xl">₹{order.total_amount.toFixed(2)}</p>
+                        <Select
+                          value={order.status}
+                          onValueChange={async (value) => {
+                            await supabase.from("orders").update({ status: value }).eq("id", order.id);
+                            toast({ title: "Status updated" });
+                            fetchStats();
+                          }}
+                        >
+                          <SelectTrigger className="w-40 mt-2">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="processing">Processing</SelectItem>
+                            <SelectItem value="shipped">Shipped</SelectItem>
+                            <SelectItem value="delivered">Delivered</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
+                    
+                    {order.order_items && order.order_items.length > 0 && (
+                      <div className="border-t pt-4 mt-4">
+                        <h5 className="font-semibold mb-3">Order Items</h5>
+                        <div className="space-y-2">
+                          {order.order_items.map((item: any, idx: number) => (
+                            <div key={idx} className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">
+                                {item.product_name} × {item.quantity}
+                              </span>
+                              <span className="font-medium">₹{item.subtotal.toFixed(2)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="border-t pt-4 mt-4 grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-muted-foreground">Payment Status</p>
+                        <p className="font-medium capitalize">{order.payment_status}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Payment Method</p>
+                        <p className="font-medium uppercase">{order.payment_method || 'COD'}</p>
+                      </div>
+                      {order.shipping_address && (
+                        <div className="col-span-2">
+                          <p className="text-muted-foreground">Shipping Address</p>
+                          <p className="font-medium">
+                            {order.shipping_address.full_name}, {order.shipping_address.phone}
+                            <br />
+                            {order.shipping_address.address_line1}, {order.shipping_address.city}
+                            <br />
+                            {order.shipping_address.state} - {order.shipping_address.pincode}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>

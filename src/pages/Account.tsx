@@ -87,17 +87,31 @@ const Account = () => {
                 <Card key={order.id} className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="font-semibold">Order #{order.order_number}</p>
+                      <p className="font-semibold text-lg">Order #{order.order_number}</p>
                       <p className="text-sm text-muted-foreground">
-                        {new Date(order.created_at).toLocaleDateString()}
+                        Placed on {new Date(order.created_at).toLocaleDateString()} at {new Date(order.created_at).toLocaleTimeString()}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold">₹{order.total_amount.toFixed(2)}</p>
-                      <p className="text-sm capitalize">{order.status}</p>
+                      <p className="font-bold text-xl">₹{order.total_amount.toFixed(2)}</p>
+                      <div className="flex gap-2 mt-1">
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          order.status === 'delivered' ? 'bg-green-100 text-green-700' :
+                          order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                          order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                          'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {order.status}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          order.payment_status === 'paid' ? 'bg-green-100 text-green-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {order.payment_status}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">View Details</Button>
                 </Card>
               ))
             )}

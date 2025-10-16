@@ -1,7 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, User, LogOut, LayoutDashboard } from "lucide-react";
+import { ShoppingCart, User, LogOut, LayoutDashboard, Users as UsersIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 
@@ -75,11 +81,23 @@ const Navigation = () => {
                   </Button>
                 </Link>
                 {isAdmin && (
-                  <Link to="/admin/dashboard">
-                    <Button variant="ghost" size="icon">
-                      <LayoutDashboard className="h-5 w-5" />
-                    </Button>
-                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <LayoutDashboard className="h-5 w-5" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => navigate("/admin/dashboard")}>
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate("/admin/users")}>
+                        <UsersIcon className="h-4 w-4 mr-2" />
+                        Users
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
                 <Button variant="outline" onClick={handleLogout}>
                   <LogOut className="h-4 w-4 mr-2" />
