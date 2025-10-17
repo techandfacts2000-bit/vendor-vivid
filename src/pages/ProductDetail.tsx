@@ -216,7 +216,49 @@ const ProductDetail = () => {
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 {product.stock_quantity <= 0 ? "Out of Stock" : "Add to Cart"}
               </Button>
-              <Button size="lg" variant="outline">
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={async () => {
+                  const { data: { user } } = await supabase.auth.getUser();
+                  
+                  if (!user) {
+                    toast({
+                      title: "Please login",
+                      description: "You need to be logged in to add items to wishlist",
+                      variant: "destructive"
+                    });
+                    return;
+                  }
+
+                  try {
+                    await supabase
+                      .from("wishlist")
+                      .insert({
+                        user_id: user.id,
+                        product_id: product.id
+                      });
+
+                    toast({
+                      title: "Added to wishlist",
+                      description: `${product.name} has been added to your wishlist`
+                    });
+                  } catch (error: any) {
+                    if (error?.code === '23505') {
+                      toast({
+                        title: "Already in wishlist",
+                        description: "This item is already in your wishlist"
+                      });
+                    } else {
+                      toast({
+                        title: "Error",
+                        description: "Failed to add to wishlist",
+                        variant: "destructive"
+                      });
+                    }
+                  }
+                }}
+              >
                 <Heart className="h-5 w-5" />
               </Button>
             </div>

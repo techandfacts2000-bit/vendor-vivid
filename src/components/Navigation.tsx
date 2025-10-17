@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, User, LogOut, LayoutDashboard, Users as UsersIcon } from "lucide-react";
+import { ShoppingCart, User, LogOut, LayoutDashboard, Users as UsersIcon, Heart } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   DropdownMenu,
@@ -70,6 +70,11 @@ const Navigation = () => {
           <div className="flex items-center gap-4">
             {user ? (
               <>
+                <Link to="/wishlist">
+                  <Button variant="ghost" size="icon">
+                    <Heart className="h-5 w-5" />
+                  </Button>
+                </Link>
                 <Link to="/cart">
                   <Button variant="ghost" size="icon">
                     <ShoppingCart className="h-5 w-5" />

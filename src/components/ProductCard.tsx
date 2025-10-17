@@ -120,9 +120,47 @@ const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
             size="icon"
             variant="secondary"
             className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
+              
+              const { data: { user } } = await supabase.auth.getUser();
+              
+              if (!user) {
+                toast({
+                  title: "Please login",
+                  description: "You need to be logged in to add items to wishlist",
+                  variant: "destructive"
+                });
+                return;
+              }
+
+              try {
+                await supabase
+                  .from("wishlist")
+                  .insert({
+                    user_id: user.id,
+                    product_id: product.id
+                  });
+
+                toast({
+                  title: "Added to wishlist",
+                  description: `${product.name} has been added to your wishlist`
+                });
+              } catch (error: any) {
+                if (error?.code === '23505') {
+                  toast({
+                    title: "Already in wishlist",
+                    description: "This item is already in your wishlist"
+                  });
+                } else {
+                  toast({
+                    title: "Error",
+                    description: "Failed to add to wishlist",
+                    variant: "destructive"
+                  });
+                }
+              }
             }}
           >
             <Heart className="h-4 w-4" />

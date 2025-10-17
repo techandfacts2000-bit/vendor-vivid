@@ -16,7 +16,7 @@ const CategorySection = ({ categories }: CategorySectionProps) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
       {categories.map((category) => (
-        <Link key={category.id} to={`/category/${category.slug}`}>
+        <Link key={category.id} to={`/products?category=${category.slug}`}>
           <Card className="group overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
             <div className="aspect-square relative overflow-hidden bg-muted">
               {category.image_url ? (
