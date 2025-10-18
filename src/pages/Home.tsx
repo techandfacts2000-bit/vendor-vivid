@@ -169,37 +169,37 @@ const Home = () => {
 
       {/* Categories */}
       {categories.length > 0 && (
-        <section className="py-8 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
+        <section className="py-6 sm:py-8 bg-muted/30">
+          <div className="container mx-auto px-3 sm:px-4">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Shop by Category</h2>
             <CategorySection categories={categories} />
           </div>
         </section>
       )}
 
       {/* Trust Badges */}
-      <section className="py-8 bg-background border-y">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-6 sm:py-8 bg-background border-y">
+        <div className="container mx-auto px-3 sm:px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             <div className="text-center">
-              <div className="text-4xl mb-2">🎨</div>
-              <h3 className="font-semibold mb-1">Handcrafted</h3>
-              <p className="text-sm text-muted-foreground">100% Authentic</p>
+              <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">🎨</div>
+              <h3 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1">Handcrafted</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">100% Authentic</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-2">🌿</div>
-              <h3 className="font-semibold mb-1">Eco-Friendly</h3>
-              <p className="text-sm text-muted-foreground">Sustainable Materials</p>
+              <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">🌿</div>
+              <h3 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1">Eco-Friendly</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Sustainable Materials</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-2">🚚</div>
-              <h3 className="font-semibold mb-1">Free Shipping</h3>
-              <p className="text-sm text-muted-foreground">On orders above ₹999</p>
+              <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">🚚</div>
+              <h3 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1">Free Shipping</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">On orders above ₹999</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl mb-2">🤝</div>
-              <h3 className="font-semibold mb-1">Support Artisans</h3>
-              <p className="text-sm text-muted-foreground">Empowering Communities</p>
+              <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">🤝</div>
+              <h3 className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1">Support Artisans</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">Empowering Communities</p>
             </div>
           </div>
         </div>
@@ -207,23 +207,23 @@ const Home = () => {
 
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
-        <section className="py-16 relative overflow-hidden">
+        <section className="py-10 sm:py-16 relative overflow-hidden">
           <div className="absolute top-20 right-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured Collection</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="container mx-auto px-3 sm:px-4 relative z-10">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4">Featured Collection</h2>
+              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
                 Discover our handpicked selection of exquisite handcrafted items
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} onWishlistUpdate={fetchWishlistCount} />
               ))}
             </div>
-            <div className="text-center mt-10">
+            <div className="text-center mt-6 sm:mt-10">
               <Link to="/products">
-                <Button size="lg" variant="outline" className="hover-scale">
+                <Button size="lg" variant="outline" className="hover-scale text-sm sm:text-base">
                   View All Products
                 </Button>
               </Link>
@@ -233,16 +233,16 @@ const Home = () => {
       )}
 
       {/* Latest Products */}
-      <section className="py-16 bg-gradient-to-b from-muted/30 to-background relative">
+      <section className="py-10 sm:py-16 bg-gradient-to-b from-muted/30 to-background relative">
         <div className="absolute bottom-20 left-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">New Arrivals</h2>
-            <p className="text-lg text-muted-foreground">
+        <div className="container mx-auto px-3 sm:px-4 relative z-10">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4">New Arrivals</h2>
+            <p className="text-sm sm:text-lg text-muted-foreground">
               Fresh from our artisans' workshops
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {products.slice(0, 8).map((product) => (
               <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} onWishlistUpdate={fetchWishlistCount} />
             ))}
