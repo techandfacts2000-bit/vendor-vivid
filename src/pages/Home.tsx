@@ -41,11 +41,13 @@ const Home = () => {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchData();
     fetchCartCount();
+    fetchWishlistCount();
   }, []);
 
   const fetchData = async () => {
@@ -76,6 +78,18 @@ const Home = () => {
         const total = data.reduce((sum, item) => sum + item.quantity, 0);
         setCartCount(total);
       }
+    }
+  };
+
+  const fetchWishlistCount = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data } = await supabase
+        .from("wishlist")
+        .select("id")
+        .eq("user_id", user.id);
+      
+      setWishlistCount(data?.length || 0);
     }
   };
 
@@ -110,8 +124,13 @@ const Home = () => {
                 </Button>
               </Link>
               <Link to="/wishlist">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="relative">
                   <Heart className="h-5 w-5" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
                 </Button>
               </Link>
               <Link to="/cart">
@@ -199,7 +218,7 @@ const Home = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} />
+                <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} onWishlistUpdate={fetchWishlistCount} />
               ))}
             </div>
             <div className="text-center mt-10">
@@ -225,7 +244,7 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.slice(0, 8).map((product) => (
-              <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} />
+              <ProductCard key={product.id} product={product} onCartUpdate={fetchCartCount} onWishlistUpdate={fetchWishlistCount} />
             ))}
           </div>
         </div>

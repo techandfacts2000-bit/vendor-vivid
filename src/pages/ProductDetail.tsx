@@ -82,7 +82,7 @@ const ProductDetail = () => {
         .select("*")
         .eq("user_id", user.id)
         .eq("product_id", product.id)
-        .single();
+        .maybeSingle();
 
       if (existing) {
         await supabase

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,81 @@ interface Product {
 interface ProductCardProps {
   product: Product;
   onCartUpdate?: () => void;
+  onWishlistUpdate?: () => void;
 }
 
-const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
+const ProductCard = ({ product, onCartUpdate, onWishlistUpdate }: ProductCardProps) => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    checkWishlistStatus();
+  }, [product.id]);
+
+  const checkWishlistStatus = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data } = await supabase
+        .from("wishlist")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("product_id", product.id)
+        .maybeSingle();
+      
+      setIsInWishlist(!!data);
+    }
+  };
+
+  const toggleWishlist = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      toast({
+        title: "Please login",
+        description: "You need to be logged in to manage wishlist",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      if (isInWishlist) {
+        await supabase
+          .from("wishlist")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("product_id", product.id);
+        
+        setIsInWishlist(false);
+        toast({
+          title: "Removed from wishlist",
+          description: `${product.name} has been removed from your wishlist`
+        });
+      } else {
+        await supabase
+          .from("wishlist")
+          .insert({
+            user_id: user.id,
+            product_id: product.id
+          });
+        
+        setIsInWishlist(true);
+        toast({
+          title: "Added to wishlist",
+          description: `${product.name} has been added to your wishlist`
+        });
+      }
+      
+      onWishlistUpdate?.();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to update wishlist",
+        variant: "destructive"
+      });
+    }
+  };
 
   const finalPrice = product.discount_percent > 0
     ? product.price * (1 - product.discount_percent / 100)
@@ -61,7 +131,7 @@ const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
         .select("*")
         .eq("user_id", user.id)
         .eq("product_id", product.id)
-        .single();
+        .maybeSingle();
 
       if (existing) {
         await supabase
@@ -118,52 +188,17 @@ const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
           )}
           <Button
             size="icon"
-            variant="secondary"
-            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={async (e) => {
+            variant="ghost"
+            className={`absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity ${
+              isInWishlist ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-background/80 hover:bg-background"
+            }`}
+            onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              
-              const { data: { user } } = await supabase.auth.getUser();
-              
-              if (!user) {
-                toast({
-                  title: "Please login",
-                  description: "You need to be logged in to add items to wishlist",
-                  variant: "destructive"
-                });
-                return;
-              }
-
-              try {
-                await supabase
-                  .from("wishlist")
-                  .insert({
-                    user_id: user.id,
-                    product_id: product.id
-                  });
-
-                toast({
-                  title: "Added to wishlist",
-                  description: `${product.name} has been added to your wishlist`
-                });
-              } catch (error: any) {
-                if (error?.code === '23505') {
-                  toast({
-                    title: "Already in wishlist",
-                    description: "This item is already in your wishlist"
-                  });
-                } else {
-                  toast({
-                    title: "Error",
-                    description: "Failed to add to wishlist",
-                    variant: "destructive"
-                  });
-                }
-              }
+              toggleWishlist();
             }}
           >
-            <Heart className="h-4 w-4" />
+            <Heart className={`h-4 w-4 ${isInWishlist ? "fill-current" : ""}`} />
           </Button>
         </div>
         <CardContent className="p-4">
