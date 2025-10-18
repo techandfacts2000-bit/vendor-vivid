@@ -37,7 +37,7 @@ const HeroBanner = ({ banners }: HeroBannerProps) => {
   if (banners.length === 0) return null;
 
   return (
-    <div className="relative w-full bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-hidden">
+    <div className="relative w-full bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-hidden mt-8">
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
